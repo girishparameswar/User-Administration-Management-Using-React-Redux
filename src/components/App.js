@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link, Route} from 'react-router-dom';
+import {Link, Route, Routes} from 'react-router-dom';
 import Home from './Home';
 import Users from './Users';
 import Create from './Create';
@@ -69,28 +69,20 @@ removeparentElem = (user) => {
               </div>
             </div>  
           </nav>
-           <Route path="/home" component={Home} />
+          <Routes>
+           <Route path="/home" element={<Home />} />
            
-           <Route path="/users" render={({history}) =>{
-             return <Users 
+           <Route path="/users" element={<Users 
              user = {this.state.users_data} 
-             history={history} 
-             onRemove = {this.removeparentElem} />
-           }}/>
+             onRemove = {this.removeparentElem} />}/>
 
-           <Route path="/create" render={({history}) =>{
-             return <Create 
-             onaddusers = {this.createUser} 
-             history={history}/>
-           }} />
+           <Route path="/create" element={<Create 
+             onaddusers = {this.createUser} />}/>
 
-           <Route path="/view/:id" render={({match}) => {
-             return <View 
+           <Route path="/view/:id" element={<View 
              onfetch = {this.getUser} 
-             onUser = {this.state.obj} 
-             match={match} />
-           }} />
-
+             onUser = {this.state.obj}/>}/>
+           </Routes>
         </div>
        );
   }
