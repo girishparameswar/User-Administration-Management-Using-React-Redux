@@ -1,39 +1,51 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-class Users extends Component {
+let Users = ({ user: users, onRemove }) => {
+  const removeUser = (user) => {
+    onRemove(user);
+  };
 
-    removeUser = (user) => {
-        this.props.onRemove(user);
-    }
-    render() {
+  let UserTable = () =>
+    users && users.length > 0
+      ? users.map((users, index) => {
+          return (
+            <tr key={index}>
+              <td>{users.username}</td>
+              <td>{users.location}</td>
+              <td>{users.products_purchased}</td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => removeUser(users)}
+                >
+                  Remove
+                </button>{" "}
+                &nbsp;&nbsp;&nbsp;
+                <Link className="btn btn-primary" to={"/view/" + index}>
+                  View
+                </Link>
+              </td>
+            </tr>
+          );
+        })
+      : null;
 
-        const users = this.props.user;
-
-        return <table className="table table-light">
-                <thead className="thead bg-danger">
-                <tr>
-                    <th>Username</th>   
-                    <th>Location</th>
-                    <th>Products Purchased</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-               {      
-                  users && users.map((users, index)=> {
-                       return <tr key={index}>
-                              <td>{users.username}</td>
-                              <td>{users.location}</td>
-                              <td>{users.products_purchased}</td>
-                              <td><button className="btn btn-danger" onClick={()=>this.removeUser(users)}>Remove</button> &nbsp;&nbsp;&nbsp;
-                              <Link className="btn btn-primary" to={"/view/"+index}>View</Link></td>
-                        </tr>
-                   })
-               }
-               </tbody>
-        </table>
-    }
-}
+  return (
+    <table className="table table-light">
+      <thead className="thead bg-danger">
+        <tr>
+          <th>Username</th>
+          <th>Location</th>
+          <th>Products Purchased</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <UserTable />
+      </tbody>
+    </table>
+  );
+};
 
 export default Users;

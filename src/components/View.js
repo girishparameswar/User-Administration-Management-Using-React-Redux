@@ -1,41 +1,31 @@
-import React, {Component} from 'react';
-
-class View extends Component {
-
-    CurrUser;
-    viewUser = (id) => {
-        this.props.onfetch(id);
-        
-    }
-
-    getusers = () => {
-        console.log(this.props.onUser);
-        // CurrUser = this.props.onUser;
-    }
-
-    componentDidMount() {
-      // alert(JSON.stringify(this.viewUser(this.props.match.params.id)));
-        
-    
-    }
-    
+import React,{ useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 
-    render() {
-        return <div className="panel panel-primary">
-                    <div className="panel-header bg-primary">
-                        <h1>User</h1>
-                    
-                    </div>
-                    <div className="panel-body">
-                        <p>{"No Details" ? "User" : this.props.onUser}</p>
-                        <button onClick={()=>this.getusers()}>Get User</button>
-                    </div>
-                </div>
-    }
+let View = ({ onfetch, onUser }) => {
+  
+    let { id } = useParams();
+    let data = onfetch(id);
+    console.log('route: ', id)
 
+    useEffect(() => {
+      if(!data.length < 0) onfetch(id)
+    }, [data])
 
-
-}
+  return (
+    <div className="panel panel-primary">
+      <div className="panel-header bg-primary">
+        <h2>Selected User</h2>
+        <p>Name: {data[0].username}</p>
+        <p>Location: {data[0].location}</p>
+        <p>Products Purchased: {data[0].products_purchased}</p>
+      </div>
+      <div className="panel-body">
+        {/* <p>{onUser}</p> */}
+        <button onClick={() => null}>Get User</button>
+      </div>
+    </div>
+  );
+};
 
 export default View;
