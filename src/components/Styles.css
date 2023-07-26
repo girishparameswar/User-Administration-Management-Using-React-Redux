@@ -18,6 +18,18 @@ div#viewContent {
   width: 40%; /* Could be more or less, depending on screen size */
 }
 
+.formContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.nouserMemo {
+  display: flex;
+  position: relative;
+  left: 100%;
+}
+
 @keyframes animatetop {
     from {top: -300px; opacity: 0}
     to {top: 0; opacity: 1}
