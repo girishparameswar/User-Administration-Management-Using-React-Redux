@@ -1,38 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import View from "./View";
 
 let Users = ({ user: users, onRemove }) => {
+  let [showView, setView] = useState(false);
+  let [currentView, setCurrentView] = useState({});
   const removeUser = (user) => {
     onRemove(user);
   };
 
+  const handleView = (user) => {
+    setView(!showView)
+    setCurrentView(user)
+  }
+
   let UserTable = () =>
     users && users.length > 0
-      ? users.map((users, index) => {
+      ? users.map((user, index) => {
           return (
             <tr key={index}>
-              <td>{users.username}</td>
-              <td>{users.location}</td>
-              <td>{users.products_purchased}</td>
+              <td>{user.username}</td>
+              <td>{user.location}</td>
+              <td>{user.products_purchased}</td>
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => removeUser(users)}
+                  onClick={() => removeUser(user)}
                 >
                   Remove
                 </button>{" "}
                 &nbsp;&nbsp;&nbsp;
-                <Link className="btn btn-primary" to={"/view/" + index}>
-                  View
-                </Link>
+                <button className="btn btn-primary" onClick={() => handleView(user)}>View</button>
               </td>
             </tr>
           );
         })
       : null;
-
   return (
-    <table className="table table-light">
+    <div>
+      <table className="table table-light">
       <thead className="thead bg-danger">
         <tr>
           <th>Username</th>
@@ -43,8 +49,10 @@ let Users = ({ user: users, onRemove }) => {
       </thead>
       <tbody>
         <UserTable />
+        {showView  && <View currentView={currentView} setView={setView}/>}
       </tbody>
     </table>
+    </div>
   );
 };
 
